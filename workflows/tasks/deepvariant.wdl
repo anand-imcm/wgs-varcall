@@ -27,7 +27,7 @@ task deepvariant {
             --output_vcf ~{sample_id}.vcf.gz \
             --output_gvcf ~{sample_id}.g.vcf.gz
         bcftools filter \
-            -i 'FILTER="PASS" && QUAL > 30 && FORMAT/DP >= 10 && FORMAT/GQ > 20' \
+            -i 'FILTER="PASS" && FORMAT/GQ > 20 && FORMAT/DP > 5 && QUAL > 30' \
             ~{sample_id}.vcf.gz \
             -Oz -o ~{sample_id}.pass.filtered.vcf.gz
         bcftools norm \
