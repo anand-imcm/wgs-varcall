@@ -5,9 +5,9 @@ task deepvariant {
         File cram
         File genome_reference
         String sample_id
-        String deepvariant_docker = "google/deepvariant:1.9.0"
-        Int memory_gb = 24
-        Int cpu = 16
+        String docker = "google/deepvariant:1.9.0"
+        Int memory_gb = 48
+        Int cpu = 32
     }  
 
     command <<<
@@ -36,20 +36,20 @@ task deepvariant {
             -m -any \
             -Oz -o ~{sample_id}.pass.filtered.norm.vcf.gz
         bcftools stats \
-            ~{sample_id}.pass.filtered.norm.vcf.gz \
-            --fasta-ref ~{genome_reference} > ~{sample_id}.pass.filtered.norm.vcf.stats.txt
+            ~{sample_id}.vcf.gz \
+            --fasta-ref ~{genome_reference} > ~{sample_id}.all.vcf.stats.txt
     >>>
 
     output {
         File all_variants_vcf = sample_id + ".vcf.gz"
         File all_variants_gvcf = sample_id + ".g.vcf.gz"
-        File all_variants_stats = sample_id + ".visual_report.html"
+        File summary = sample_id + ".visual_report.html"
+        File all_vcf_stats = sample_id + ".all.vcf.stats.txt"
         File filtered_vcf = sample_id + ".pass.filtered.norm.vcf.gz"
-        File filtered_vcf_stats = sample_id + ".pass.filtered.norm.vcf.stats.txt"
     }
 
     runtime {
-        docker: "~{deepvariant_docker}"
+        docker: "~{docker}"
         bootDiskSizeGb: 20
         cpu: "~{cpu}"
         memory: "~{memory_gb}GB"
