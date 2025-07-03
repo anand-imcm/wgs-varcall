@@ -3,16 +3,19 @@ version 1.0
 import "./tasks/deepvariant.wdl" as dvar
 import "./tasks/gauchian.wdl" as gvar
 import "./tasks/summary.wdl" as stats
+import "./tasks/annotation.wdl" as ann
 
 workflow main {
     String pipeline_version = "1.0.0"
     String container_src = "docker.io/library/dev-wgs:~{pipeline_version}"
     String deepvariant_docker = "ghcr.io/anand-imcm/deepvariant:1.9.0"
+    String vep_docker = "ghcr.io/anand-imcm/ensembl-vep:release_113.3"
 
     input {
         File cram
         String sample_id
         File genome_reference
+        File vep_cache
         Boolean use_deepvariant = false
     }
 
@@ -30,7 +33,15 @@ workflow main {
                 cram = cram,
                 genome_reference = genome_reference,
                 sample_id = sample_id,
-                deepvariant_docker = deepvariant_docker
+                docker = deepvariant_docker
+        }
+        call ann.vep {
+            input: 
+                vcf = deepvariant.filtered_vcf, 
+                vep_cache = vep_cache,
+                genome_reference = genome_reference,
+                file_label = sample_id,
+                docker = vep_docker
         }
     }
 
@@ -40,6 +51,7 @@ workflow main {
             reference = genome_reference,
             sample_id = sample_id,
             vcf = deepvariant.filtered_vcf,
+            vep_stats = vep.stats,
             docker = container_src
     }
 
@@ -47,11 +59,14 @@ workflow main {
         File gauchian_gba_summary = gauchian.gauchian_tsv
         File gauchian_gba_annotation_summary = gauchian.gauchian_ann_tsv
         File gauchian_gba_json = gauchian.gauchian_json
-        File? deepvariant_vcf = deepvariant.all_variants_vcf
+        File? deepvariant_all_vcf = deepvariant.all_variants_vcf
+        File? deepvariant_all_vcf_stats = deepvariant.all_vcf_stats
+        File? deepvariant_summary = deepvariant.summary
         File? deepvariant_gvcf = deepvariant.all_variants_gvcf
-        File? deepvariant_stats = deepvariant.all_variants_stats
         File? deepvariant_filtered_vcf = deepvariant.filtered_vcf
         File? deepvariant_filtered_vcf_stats = summary.vcf_stats
+        File? vep_annotated_vcf = vep.annotated_vcf
+        File? vep_annotation_stats = vep.stats
         File qc_report = summary.multiqc_report
         File qc_plots = summary.multiqc_plots
         File qc_data = summary.multiqc_data
