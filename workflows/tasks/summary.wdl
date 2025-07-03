@@ -6,6 +6,7 @@ task summary {
         File reference
         String sample_id
         File? vcf
+        File? vep_stats
         Int memory_gb = 24
         Int cpu = 16
         String docker
@@ -20,6 +21,9 @@ task summary {
             bcftools stats \
                 ~{sample_id}.vcf.gz \
                 --fasta-ref ~{reference} > ~{sample_id}.vcf.stats.txt
+        fi
+        if [ -n "~{vep_stats}" ]; then
+            ln -s ~{vep_stats} ~{sample_id}.vep.txt
         fi
         samtools flagstat \
             ~{cram} > ~{sample_id}.flagstat.txt
