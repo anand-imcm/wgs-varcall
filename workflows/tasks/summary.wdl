@@ -25,7 +25,7 @@ task summary {
         if [ -n "~{vep_stats}" ]; then
             ln -s ~{vep_stats} ~{sample_id}.vep.txt
         fi
-        samtools flagstat \
+        samtools flagstat --threads $(nproc) \
             ~{cram} > ~{sample_id}.flagstat.txt
         mosdepth \
             --threads $(nproc) \
