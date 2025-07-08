@@ -56,9 +56,8 @@ workflow main {
     }
 
     output {
-        File gauchian_gba_summary = gauchian.gauchian_tsv
-        File gauchian_gba_annotation_summary = gauchian.gauchian_ann_tsv
-        File gauchian_gba_json = gauchian.gauchian_json
+        File gauchian_summary = gauchian.gauchian_tsv
+        File gauchian_json = gauchian.gauchian_json
         File? deepvariant_all_vcf = deepvariant.all_variants_vcf
         File? deepvariant_all_vcf_stats = deepvariant.all_vcf_stats
         File? deepvariant_summary = deepvariant.summary

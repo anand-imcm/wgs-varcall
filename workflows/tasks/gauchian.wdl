@@ -24,15 +24,10 @@ task gauchian {
             --prefix ~{sample_id}.gauchian \
             --outDir . \
             --threads $(nproc)
-        python /scripts/report.py \
-            -i ~{sample_id}.gauchian.tsv \
-            -c /scripts/variant_summary.txt.gz \
-            -o ~{sample_id}.gauchian_clinvar.tsv
     >>>
 
     output {
         File gauchian_tsv = sample_id + ".gauchian.json"
-        File gauchian_ann_tsv = sample_id + ".gauchian_clinvar.tsv"
         File gauchian_json = sample_id + ".gauchian.tsv"
     }
     runtime {
