@@ -4,7 +4,7 @@ task vep {
     
     input {
         File vcf
-        File vep_cache
+        File cache
         File genome_reference
         String file_label
         String docker = "ensemblorg/ensembl-vep:release_110.1"
@@ -12,14 +12,14 @@ task vep {
         Int cpu = 32
     }  
 
-    Int disk_size_gb = ceil(size([vep_cache, genome_reference, vcf], "GB")) * 3
+    Int disk_size_gb = ceil(size([cache, genome_reference, vcf], "GB")) * 3
 
     command <<<
         set -euo pipefail
 
         ln -s ~{genome_reference} genome_reference.fasta
 
-        unzip ~{vep_cache} -d vep_cache/
+        unzip ~{cache} -d vep_cache/
 
         perl /opt/vep/src/ensembl-vep/vep --force_overwrite \
             --input_file ~{vcf} \
