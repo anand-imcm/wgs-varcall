@@ -15,18 +15,20 @@ workflow main {
         File cram
         String sample_id
         File genome_reference
-        File vep_cache
+        Boolean use_gauchian = true
         Boolean use_deepvariant = false
+        Boolean use_vep = false
+        File vep_cache
     }
-
-    call gvar.gauchian {
-        input:
-            cram = cram,
-            genome_reference = genome_reference,
-            sample_id = sample_id,
-            docker = container_src
+    if(use_gauchian){
+        call gvar.gauchian {
+            input:
+                cram = cram,
+                genome_reference = genome_reference,
+                sample_id = sample_id,
+                docker = container_src
+        }
     }
-
     if(use_deepvariant){
         call dvar.deepvariant {
             input:
@@ -35,16 +37,17 @@ workflow main {
                 sample_id = sample_id,
                 docker = deepvariant_docker
         }
-        call ann.vep {
-            input: 
-                vcf = deepvariant.filtered_vcf, 
-                vep_cache = vep_cache,
-                genome_reference = genome_reference,
-                file_label = sample_id,
-                docker = vep_docker
+        if (use_vep){
+            call ann.vep {
+                input: 
+                    vcf = deepvariant.filtered_vcf,
+                    cache = vep_cache,
+                    genome_reference = genome_reference,
+                    file_label = sample_id,
+                    docker = vep_docker
+            }
         }
     }
-
     call stats.summary {
         input:
             cram = cram,
@@ -54,10 +57,9 @@ workflow main {
             vep_stats = vep.stats,
             docker = container_src
     }
-
     output {
-        File gauchian_summary = gauchian.gauchian_tsv
-        File gauchian_json = gauchian.gauchian_json
+        File? gauchian_summary = gauchian.gauchian_tsv
+        File? gauchian_json = gauchian.gauchian_json
         File? deepvariant_all_vcf = deepvariant.all_variants_vcf
         File? deepvariant_all_vcf_stats = deepvariant.all_vcf_stats
         File? deepvariant_summary = deepvariant.summary
@@ -73,7 +75,6 @@ workflow main {
         File depth_summary = summary.depth_summary
         File global_depth_summary = summary.global_depth
     }
-
     meta {
         description: "A WDL workflow for variant calling and annotation from WGS CRAM files. It uses Google's DeepVariant for genome-wide SNV and indel detection, and Illumina's Gauchian for precise variant calling in the GBA gene region"
         author: "Anand Maurya"
