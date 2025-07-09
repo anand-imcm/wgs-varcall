@@ -8,7 +8,6 @@ dependencies:
 - bedtools<=2.31.1
 - bzip2<=1.0.8
 - mosdepth<=0.3.10
-- multiqc<=1.29
 - python<=3.13
 - samtools<=1.22
 - pip
