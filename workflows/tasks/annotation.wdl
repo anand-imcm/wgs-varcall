@@ -24,9 +24,9 @@ task vep {
         perl /opt/vep/src/ensembl-vep/vep --force_overwrite \
             --input_file ~{vcf} \
             --vcf \
-            --output_file ~{file_label}_annotated.vcf \
+            --output_file ~{file_label}.annotated.vcf \
             --stats_text \
-            --stats_file ~{file_label}_vep.txt \
+            --stats_file ~{file_label}.vep.txt \
             --cache \
             --dir_cache vep_cache/ \
             --merged \
@@ -39,8 +39,8 @@ task vep {
     >>>
 
     output {
-        File annotated_vcf = file_label + "_annotated.vcf"
-        File stats = file_label + "_vep.txt"
+        File annotated_vcf = file_label + ".annotated.vcf"
+        File stats = file_label + ".vep.txt"
     }
 
     runtime {
