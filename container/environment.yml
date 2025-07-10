@@ -13,5 +13,5 @@ dependencies:
 - pip
 - pip:
   - gauchian<=1.0.2
-  - multiqc<=1.29
+  - multiqc<=1.30
   - pandas<=2.3.0
