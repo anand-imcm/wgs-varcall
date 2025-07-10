@@ -20,7 +20,7 @@ task deepvariant {
             --model_type WGS \
             --vcf_stats_report=true \
             --call_variants_extra_args="allow_empty_examples=true" \
-            --num_shards $(nproc) \
+            --num_shards $(( $(nproc) * 3 / 4 )) \
             --regions chr1 \
             --ref ~{genome_reference} \
             --reads ~{cram} \
