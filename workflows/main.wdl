@@ -55,6 +55,7 @@ workflow main {
             sample_id = sample_id,
             vcf = deepvariant.filtered_vcf,
             vep_stats = vep.stats,
+            vep_out = vep.annotated_vcf,
             docker = container_src
     }
     output {
@@ -67,6 +68,7 @@ workflow main {
         File? deepvariant_filtered_vcf = deepvariant.filtered_vcf
         File? deepvariant_filtered_vcf_stats = summary.vcf_stats
         File? vep_annotated_vcf = vep.annotated_vcf
+        File? vep_annotated_tsv = summary.annotation_tsv
         File? vep_annotation_stats = vep.stats
         File qc_report = summary.multiqc_report
         File qc_plots = summary.multiqc_plots
