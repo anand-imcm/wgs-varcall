@@ -33,17 +33,17 @@ The workflow is composed of the following steps:
 
 ### Optional
 
-- `main.use_gauchian`: [Boolean] (optional) Default value: `true`
+- `main.use_gauchian`: [Boolean] If `true`, perform the target variant calling in GBA gene using Gauchian variant caller. Default: `true`.
 
-- `main.use_deepvariant`: [Boolean] (optional) Default value: `false`
+- `main.use_deepvariant`: [Boolean] If `true`, perform whole-genome variant calling using DeepVariant. Default: `false`.
 
-- `main.use_vep`: [Boolean] (optional) Default value: `false`
+- `main.use_vep`: [Boolean] If true, annotate DeepVariant's VCF with VEP. Default: `false`.
 
 - `main.vep_cache`: [File] VEP cache in .zip format. This cache is required by the VEP tool for annotation. Use the "merged" Ensembl and RefSeq cache.
 
-- `main.*.cpu`: [Int] (optional) Default value: `16`
+- `main.*.cpu`: [Int] Number of CPUs for each task. Default: `32`.
 
-- `main.*.memory_gb`: [Int] (optional) Default value: `24`
+- `main.*.memory_gb`: [Int] Memory in `GB` for each task. Default: `48`.
 
 > [!NOTE]
 > A custom `vep_cache.zip` file has been created which contains: [Ensembl GRCh38 release v113 refseq merged cache](https://ftp.ensembl.org/pub/release-113/variation/indexed_vep_cache/homo_sapiens_merged_vep_113_GRCh38.tar.gz) (extracted), [clinvar.vcf.gz](https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz) and [clinvar.vcf.gz.tbi](https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz.tbi)

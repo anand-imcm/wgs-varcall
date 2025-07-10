@@ -6,8 +6,8 @@ task gauchian {
         File genome_reference
         String sample_id
         String docker
-        Int memory_gb = 24
-        Int cpu = 16
+        Int memory_gb = 48
+        Int cpu = 32
     }  
 
     command <<<

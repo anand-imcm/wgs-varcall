@@ -10,17 +10,12 @@ task vep {
         String docker = "ensemblorg/ensembl-vep:release_110.1"
         Int memory_gb = 48
         Int cpu = 32
-    }  
-
-    Int disk_size_gb = ceil(size([cache, genome_reference, vcf], "GB")) * 3
+    }
 
     command <<<
         set -euo pipefail
-
         ln -s ~{genome_reference} genome_reference.fasta
-
         unzip ~{cache} -d vep_cache/
-
         perl /opt/vep/src/ensembl-vep/vep --force_overwrite \
             --input_file ~{vcf} \
             --vcf \
@@ -47,6 +42,6 @@ task vep {
         docker: "~{docker}"
         cpu: "~{cpu}"
         memory: "~{memory_gb}GB"
-        disks: "local-disk ~{disk_size_gb} HDD"
+        disks: "local-disk ~{ceil(size([cache, genome_reference, vcf], 'GB')) * 3} HDD"
     }
 }

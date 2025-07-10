@@ -8,8 +8,8 @@ task summary {
         File? vcf
         File? vep_stats
         File? vep_out
-        Int memory_gb = 24
-        Int cpu = 16
+        Int memory_gb = 48
+        Int cpu = 32
         String docker
     }  
 
@@ -66,6 +66,6 @@ task summary {
         docker: "~{docker}"
         cpu: "~{cpu}"
         memory: "~{memory_gb}GB"
-        disks: "local-disk ~{ceil(size(cram, 'GB')) * 3} HDD"
+        disks: "local-disk ~{ceil(size([cram, reference], 'GB')) * 3} HDD"
     }
 }
