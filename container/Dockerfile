@@ -18,8 +18,6 @@ RUN micromamba install -y -n base -f /tmp/environment.yml && \
 
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
 
-COPY --chown=$MAMBA_USER:$MAMBA_USER ./scripts/vep.py /opt/conda/lib/python3.13/site-packages/multiqc/modules/vep/vep.py
-
 ENV MULTIQC_CONFIG_PATH="/scripts/multiqc_config.yaml"
 
 ENV PATH="/opt/conda/bin:$PATH"
