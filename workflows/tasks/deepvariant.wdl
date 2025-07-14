@@ -24,7 +24,6 @@ task deepvariant {
             --vcf_stats_report=true \
             --call_variants_extra_args="allow_empty_examples=true" \
             --num_shards $(( $(nproc) * 3 / 4 )) \
-            --region chr1 \
             --ref $ref \
             --reads ~{sample_id}.cram \
             --output_vcf ~{sample_id}.vcf.gz \
