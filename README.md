@@ -7,7 +7,7 @@
 > [!TIP]
 > To import the workflow into your Terra workspace, click on the above Dockstore badge, and select 'Terra' from the 'Launch with' widget on the Dockstore workflow page.
 
-This repository contains a WDL-based workflow for variant calling and annotation using Hi-Fi reads. The workflow includes several steps such as alignment, variant calling, VCF filtering, VCF normalization, variant phasing, variant annotation, and structural variant calling.
+This repository contains a WDL-based workflow for variant calling and annotation from WGS CRAM files. It uses Google's DeepVariant for genome-wide SNV and indel detection, and Illumina's Gauchian for precise variant calling in the GBA gene region
 
 ## Workflow Steps
 
