@@ -53,8 +53,6 @@ task summary {
     >>>
 
     output {
-        File cram_index = cram + ".crai"
-        File genome_index = reference + ".fai"
         File cram_summary = sample_id + ".flagstat.txt"
         File depth_summary = sample_id + ".mosdepth.summary.txt"
         File global_depth = sample_id + ".mosdepth.global.dist.txt"
