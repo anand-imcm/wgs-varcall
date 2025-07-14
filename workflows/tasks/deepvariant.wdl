@@ -14,16 +14,16 @@ task deepvariant {
         set -euo pipefail
         export TF_ENABLE_ONEDNN_OPTS=0
         export TF_CPP_MIN_LOG_LEVEL=2
-        samtools index ~{cram}
+        ln -s ~{cram} ~{sample_id}.cram
+        samtools index ~{sample_id}.cram
         samtools faidx ~{genome_reference}
         /opt/deepvariant/bin/run_deepvariant \
             --model_type WGS \
             --vcf_stats_report=true \
             --call_variants_extra_args="allow_empty_examples=true" \
             --num_shards $(( $(nproc) * 3 / 4 )) \
-            --regions chr1 \
             --ref ~{genome_reference} \
-            --reads ~{cram} \
+            --reads ~{sample_id}.cram \
             --output_vcf ~{sample_id}.vcf.gz \
             --output_gvcf ~{sample_id}.g.vcf.gz
         bcftools filter \
