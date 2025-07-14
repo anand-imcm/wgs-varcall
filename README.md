@@ -7,7 +7,7 @@
 > [!TIP]
 > To import the workflow into your Terra workspace, click on the above Dockstore badge, and select 'Terra' from the 'Launch with' widget on the Dockstore workflow page.
 
-This repository contains a WDL-based workflow for variant calling and annotation from WGS CRAM files. It uses Google's DeepVariant for genome-wide SNV and indel detection, and Illumina's Gauchian for precise variant calling in the GBA gene region
+This repository provides a WDL-based workflow designed for variant calling and annotation using Whole Genome Sequencing (WGS) CRAM files. It uses Google's DeepVariant for accurate genome-wide detection of single nucleotide variants (SNVs) and indels, alongside Illumina's Gauchian tool for targeted variant calling within the GBA gene region. Additionally, the workflow uses Ensembl's Variant Effect Predictor (VEP) to annotate the SNVs and Indels detected by the DeepVariant.
 
 ## Workflow Steps
 
