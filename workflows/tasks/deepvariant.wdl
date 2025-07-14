@@ -16,7 +16,7 @@ task deepvariant {
         export TF_CPP_MIN_LOG_LEVEL=2
         ref=$(basename "~{genome_reference}")
         ln -s ~{genome_reference} $ref
-        samtools faidx -@ $(( $(nproc) * 3 / 4 )) $ref
+        samtools faidx $ref
         ln -s ~{cram} ~{sample_id}.cram
         samtools index -@ $(( $(nproc) * 3 / 4 )) ~{sample_id}.cram
         /opt/deepvariant/bin/run_deepvariant \
