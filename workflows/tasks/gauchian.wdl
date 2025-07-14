@@ -12,10 +12,9 @@ task gauchian {
 
     command <<<
         set -euo pipefail
-        samtools index ~{cram}
         samtools faidx ~{genome_reference}
         ln -s ~{cram} ~{sample_id}.cram
-        ln -s ~{cram}.crai ~{sample_id}.crai
+        samtools index ~{sample_id}.cram
         echo ~{sample_id}.cram > manifest.txt
         gauchian \
             --manifest manifest.txt \
