@@ -15,13 +15,16 @@ task summary {
 
     command <<<
         set -euo pipefail
-        samtools index -@ $(( $(nproc) * 3 / 4 )) ~{cram}
-        samtools faidx -@ $(( $(nproc) * 3 / 4 )) ~{reference}
+        ref=$(basename "~{reference}")
+        ln -s ~{reference} $ref
+        samtools faidx -@ $(( $(nproc) * 3 / 4 )) $ref
+        ln -s ~{cram} ~{sample_id}.cram
+        samtools index -@ $(( $(nproc) * 3 / 4 )) ~{sample_id}.cram
         if [ -n "~{vcf}" ]; then
             ln -s ~{vcf} ~{sample_id}.vcf.gz
             bcftools stats \
                 ~{sample_id}.vcf.gz \
-                --fasta-ref ~{reference} > ~{sample_id}.vcf.stats.txt
+                --fasta-ref $ref > ~{sample_id}.vcf.stats.txt
         fi
         if [ -n "~{vep_stats}" ]; then
             ln -s ~{vep_stats} ~{sample_id}.vep.txt
@@ -33,12 +36,12 @@ task summary {
         fi
         mosdepth --threads $(( $(nproc) * 3 / 4 )) \
             --no-per-base \
-            --fasta ~{reference} \
+            --fasta $ref \
             ~{sample_id} \
-            ~{cram}
+            ~{sample_id}.cram
         samtools flagstat \
             -@ $(( $(nproc) * 3 / 4 )) \
-            ~{cram} > ~{sample_id}.flagstat.txt
+            ~{sample_id}.cram > ~{sample_id}.flagstat.txt
         multiqc . \
             --force \
             --no-ai \

@@ -12,14 +12,16 @@ task gauchian {
 
     command <<<
         set -euo pipefail
-        samtools faidx ~{genome_reference}
+        ref=$(basename "~{genome_reference}")
+        ln -s ~{genome_reference} $ref
+        samtools faidx -@ $(( $(nproc) * 3 / 4 )) $ref
         ln -s ~{cram} ~{sample_id}.cram
-        samtools index ~{sample_id}.cram
+        samtools index -@ $(( $(nproc) * 3 / 4 )) ~{sample_id}.cram
         echo ~{sample_id}.cram > manifest.txt
         gauchian \
             --manifest manifest.txt \
             --genome 38 \
-            --reference ~{genome_reference} \
+            --reference $ref \
             --prefix ~{sample_id}.gauchian \
             --outDir . \
             --threads $(nproc)

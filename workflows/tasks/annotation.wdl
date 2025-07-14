@@ -14,7 +14,8 @@ task vep {
 
     command <<<
         set -euo pipefail
-        ln -s ~{genome_reference} genome_reference.fasta
+        ref=$(basename "~{genome_reference}")
+        ln -s ~{genome_reference} $ref
         unzip ~{cache} -d vep_cache/
         perl /opt/vep/src/ensembl-vep/vep --force_overwrite \
             --input_file ~{vcf} \
@@ -25,7 +26,7 @@ task vep {
             --cache \
             --dir_cache vep_cache/ \
             --merged \
-            --fasta genome_reference.fasta \
+            --fasta $ref \
             --fork $(( $(nproc) * 3 / 4 )) \
             --numbers --offline --hgvs --shift_hgvs 0 --terms SO --symbol \
             --sift b --polyphen b --total_length --ccds --canonical --biotype \
