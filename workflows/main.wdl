@@ -7,7 +7,7 @@ import "./tasks/annotation.wdl" as ann
 
 workflow main {
     String pipeline_version = "1.0.0"
-    String container_src = "docker.io/library/dev-wgs:~{pipeline_version}"
+    String container_src = "ghcr.io/anand-imcm/wgs-varcall:~{pipeline_version}"
     String deepvariant_docker = "ghcr.io/anand-imcm/deepvariant:1.9.0"
     String vep_docker = "ghcr.io/anand-imcm/ensembl-vep:release_113.3"
 
