@@ -67,6 +67,6 @@ task summary {
         docker: "~{docker}"
         cpu: "~{cpu}"
         memory: "~{memory_gb}GB"
-        disks: "local-disk ~{ceil(size([cram, reference], 'GB')) * 3} HDD"
+        disks: "local-disk ~{ceil(size([cram, reference, vcf], 'GB')) * 4} HDD"
     }
 }

@@ -36,6 +36,6 @@ task gauchian {
         bootDiskSizeGb: 20
         cpu: "~{cpu}"
         memory: "~{memory_gb}GB"
-        disks: "local-disk ~{ceil(size([cram,genome_reference], 'GB')) * 3} HDD"
+        disks: "local-disk ~{ceil(size([cram,genome_reference], 'GB')) * 4} HDD"
     }
 }
