@@ -28,8 +28,8 @@ task gauchian {
     >>>
 
     output {
-        File gauchian_tsv = sample_id + ".gauchian.json"
-        File gauchian_json = sample_id + ".gauchian.tsv"
+        File gauchian_tsv = sample_id + ".gauchian.tsv"
+        File gauchian_json = sample_id + ".gauchian.json"
     }
     runtime {
         docker: "~{docker}"
