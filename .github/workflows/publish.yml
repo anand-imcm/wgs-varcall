@@ -10,7 +10,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-gen:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
